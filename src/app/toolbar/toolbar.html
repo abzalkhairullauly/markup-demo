@@ -1,0 +1,195 @@
+<div
+    class="mr-1 hidden items-center gap-2 pr-1 font-semibold tracking-tight lg:flex"
+>
+    <span class="size-3 rounded-sm bg-accent" aria-hidden="true"></span>
+    markup
+    <span
+        class="rounded-full bg-accent-soft px-2 py-0.5 text-xs font-medium text-accent"
+        >demo</span
+    >
+</div>
+
+<button
+    type="button"
+    class="btn-icon max-sm:hidden"
+    aria-label="Open image"
+    [attr.data-tip]="'Open image (' + mod + 'O)'"
+    (click)="openImage.emit()"
+>
+    <app-icon name="image" />
+</button>
+
+<div class="divider max-sm:hidden"></div>
+
+<div class="flex items-center gap-0.5" role="group" aria-label="Tools">
+    @for (tool of tools; track tool.id) {
+        <button
+            type="button"
+            class="btn-icon"
+            [class.max-sm:hidden]="!tool.essential"
+            [attr.aria-label]="tool.label"
+            [attr.aria-pressed]="editor.activeTool() === tool.id"
+            [attr.data-tip]="tool.label + ' (' + tool.key + ')'"
+            (click)="editor.selectTool(tool.id)"
+        >
+            <app-icon [name]="tool.icon" />
+        </button>
+    }
+</div>
+
+<div class="divider"></div>
+
+<div class="flex items-center gap-0.5" role="group" aria-label="History">
+    <button
+        type="button"
+        class="btn-icon"
+        aria-label="Undo"
+        [attr.data-tip]="'Undo (' + mod + 'Z)'"
+        [disabled]="!editor.canUndo()"
+        (click)="editor.undo()"
+    >
+        <app-icon name="undo" />
+    </button>
+    <button
+        type="button"
+        class="btn-icon max-sm:hidden"
+        aria-label="Redo"
+        [attr.data-tip]="'Redo (' + mod + 'Shift+Z)'"
+        [disabled]="!editor.canRedo()"
+        (click)="editor.redo()"
+    >
+        <app-icon name="redo" />
+    </button>
+</div>
+
+<div class="divider max-lg:hidden"></div>
+
+<div
+    class="flex items-center gap-0.5 max-lg:hidden"
+    role="group"
+    aria-label="Zoom"
+>
+    <button
+        type="button"
+        class="btn-icon"
+        aria-label="Zoom out"
+        data-tip="Zoom out (−)"
+        [disabled]="!editor.hasImage()"
+        (click)="editor.zoomOut()"
+    >
+        <app-icon name="zoom-out" />
+    </button>
+    <button
+        type="button"
+        azButton
+        variant="ghost"
+        size="sm"
+        class="w-16 font-mono tabular-nums"
+        aria-label="Actual size"
+        data-tip="Actual size (1)"
+        [disabled]="!editor.hasImage()"
+        (click)="editor.actualSize()"
+    >
+        {{ zoomLabel() }}
+    </button>
+    <button
+        type="button"
+        class="btn-icon"
+        aria-label="Zoom in"
+        data-tip="Zoom in (+)"
+        [disabled]="!editor.hasImage()"
+        (click)="editor.zoomIn()"
+    >
+        <app-icon name="zoom-in" />
+    </button>
+    <button
+        type="button"
+        class="btn-icon"
+        aria-label="Fit to screen"
+        data-tip="Fit to screen (0)"
+        [disabled]="!editor.hasImage()"
+        (click)="editor.fit()"
+    >
+        <app-icon name="fit" />
+    </button>
+</div>
+
+<div class="flex-1"></div>
+
+<div #exportMenu class="relative max-sm:hidden">
+    <button
+        type="button"
+        azButton
+        aria-haspopup="menu"
+        [attr.aria-expanded]="exportOpen()"
+        aria-controls="export-menu"
+        [disabled]="!editor.hasImage()"
+        (click)="toggleExport()"
+    >
+        <app-icon name="download" [size]="18" />
+        Export
+        <app-icon name="chevron-down" [size]="16" />
+    </button>
+    @if (exportOpen()) {
+        <div
+            id="export-menu"
+            role="menu"
+            tabindex="-1"
+            aria-label="Export"
+            class="popover absolute end-0 top-full z-30 mt-1.5 w-64 p-1"
+            (keydown.escape)="exportOpen.set(false)"
+        >
+            <button
+                type="button"
+                role="menuitem"
+                class="menu-item"
+                (click)="export('masks')"
+            >
+                <span>PNG mask per class</span>
+                <span class="text-xs text-ink-muted">White on transparent</span>
+            </button>
+            <button
+                type="button"
+                role="menuitem"
+                class="menu-item"
+                (click)="export('color')"
+            >
+                <span>Combined colour PNG</span>
+                <span class="text-xs text-ink-muted"
+                    >All classes in one image</span
+                >
+            </button>
+            <button
+                type="button"
+                role="menuitem"
+                class="menu-item"
+                (click)="export('json')"
+            >
+                <span>JSON</span>
+                <span class="text-xs text-ink-muted"
+                    >Classes and base64 masks</span
+                >
+            </button>
+        </div>
+    }
+</div>
+
+<button
+    type="button"
+    class="btn-icon md:hidden"
+    aria-label="Classes"
+    data-tip="Classes"
+    (click)="toggleClasses.emit()"
+>
+    <app-icon name="layers" />
+</button>
+
+<button
+    type="button"
+    class="btn-icon max-sm:hidden"
+    aria-label="Keyboard shortcuts"
+    data-tip="Shortcuts (?)"
+    (click)="showShortcuts.emit()"
+>
+    <app-icon name="keyboard" />
+</button>

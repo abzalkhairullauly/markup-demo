@@ -1,0 +1,204 @@
+<section aria-labelledby="brush-heading" class="flex flex-col gap-3">
+    <h2 id="brush-heading" class="panel-heading">Brush &amp; line width</h2>
+    <label class="flex flex-col gap-2 text-sm">
+        <span class="flex justify-between">
+            <span>Size</span>
+            <span class="tabular-nums text-ink-muted"
+                >{{ editor.brushSize() }} px</span
+            >
+        </span>
+        <input
+            type="range"
+            class="range"
+            [min]="minBrush"
+            [max]="maxBrush"
+            [value]="editor.brushSize()"
+            aria-describedby="brush-hint"
+            (input)="onBrushInput($event)"
+        />
+        <span id="brush-hint" class="text-xs text-ink-muted"
+            >Shortcut: [ and ]</span
+        >
+    </label>
+    <az-checkbox
+        [checked]="editor.eraseAllClasses()"
+        (checkedChange)="editor.setEraseAllClasses($event)"
+    >
+        Eraser and scissors affect all classes
+    </az-checkbox>
+</section>
+
+@if (editor.activeTool() === "threshold") {
+    <section aria-labelledby="threshold-heading" class="flex flex-col gap-3">
+        <h2 id="threshold-heading" class="panel-heading">Threshold</h2>
+        <p class="text-xs text-ink-muted">
+            Pixels with brightness in this range are previewed in the class
+            colour. Click the image to pick a brightness.
+        </p>
+        <label class="flex flex-col gap-2 text-sm">
+            <span class="flex justify-between">
+                <span>From</span>
+                <span class="font-mono text-ink-muted">{{
+                    editor.threshold().min
+                }}</span>
+            </span>
+            <input
+                type="range"
+                class="range"
+                min="0"
+                max="255"
+                [value]="editor.threshold().min"
+                (input)="onThresholdInput('min', $event)"
+            />
+        </label>
+        <label class="flex flex-col gap-2 text-sm">
+            <span class="flex justify-between">
+                <span>To</span>
+                <span class="font-mono text-ink-muted">{{
+                    editor.threshold().max
+                }}</span>
+            </span>
+            <input
+                type="range"
+                class="range"
+                min="0"
+                max="255"
+                [value]="editor.threshold().max"
+                (input)="onThresholdInput('max', $event)"
+            />
+        </label>
+        <button
+            type="button"
+            azButton
+            [disabled]="!editor.activeClass()"
+            (click)="editor.applyTool()"
+        >
+            Add to {{ editor.activeClass()?.name ?? "class" }}
+        </button>
+    </section>
+}
+
+<section aria-labelledby="classes-heading" class="flex flex-col gap-2">
+    <div class="flex items-center justify-between">
+        <h2 id="classes-heading" class="panel-heading">Classes</h2>
+        <button
+            type="button"
+            azButton
+            variant="ghost"
+            size="sm"
+            [disabled]="!editor.hasImage()"
+            (click)="editor.addClass()"
+        >
+            <app-icon name="plus" [size]="16" />
+            Add
+        </button>
+    </div>
+
+    <ul class="flex flex-col gap-1" aria-label="Label classes">
+        @for (cls of editor.classes(); track cls.id) {
+            <li
+                class="class-row"
+                [class.class-row-active]="cls.id === editor.activeClassId()"
+            >
+                <input
+                    type="radio"
+                    name="active-class"
+                    class="size-4 shrink-0 accent-accent"
+                    [checked]="cls.id === editor.activeClassId()"
+                    [attr.aria-label]="'Draw with ' + cls.name"
+                    (change)="editor.selectClass(cls.id)"
+                />
+                <input
+                    type="color"
+                    class="swatch"
+                    [value]="cls.color"
+                    [attr.aria-label]="'Colour of ' + cls.name"
+                    (input)="onRecolor(cls, $event)"
+                />
+                <input
+                    type="text"
+                    class="class-name"
+                    maxlength="40"
+                    [value]="cls.name"
+                    [attr.aria-label]="'Name of ' + cls.name"
+                    (focus)="editor.selectClass(cls.id)"
+                    (change)="onRename(cls, $event)"
+                    (keydown.enter)="blurTarget($event)"
+                />
+                <button
+                    type="button"
+                    class="btn-icon size-8"
+                    [attr.aria-label]="
+                        (cls.visible ? 'Hide ' : 'Show ') + cls.name
+                    "
+                    [attr.aria-pressed]="!cls.visible"
+                    [attr.data-tip]="cls.visible ? 'Hide' : 'Show'"
+                    (click)="editor.toggleClassVisibility(cls.id)"
+                >
+                    <app-icon
+                        [name]="cls.visible ? 'eye' : 'eye-off'"
+                        [size]="18"
+                    />
+                </button>
+                <button
+                    type="button"
+                    class="btn-icon size-8"
+                    [attr.aria-label]="'Delete ' + cls.name"
+                    data-tip="Delete"
+                    (click)="remove(cls)"
+                >
+                    <app-icon name="trash" [size]="18" />
+                </button>
+            </li>
+        } @empty {
+            <li class="px-1 py-2 text-sm text-ink-muted">No classes yet.</li>
+        }
+    </ul>
+</section>
+
+<section aria-labelledby="opacity-heading" class="flex flex-col gap-2">
+    <h2 id="opacity-heading" class="panel-heading">Display</h2>
+    <label class="flex flex-col gap-2 text-sm">
+        <span class="flex justify-between">
+            <span>Mask opacity</span>
+            <span class="tabular-nums text-ink-muted"
+                >{{ opacityPercent() }}%</span
+            >
+        </span>
+        <input
+            type="range"
+            class="range"
+            min="0"
+            max="100"
+            [value]="opacityPercent()"
+            (input)="onOpacityInput($event)"
+        />
+    </label>
+</section>
+
+<div class="mt-auto flex flex-col gap-3">
+    <button
+        type="button"
+        azButton
+        variant="secondary"
+        size="sm"
+        [disabled]="!editor.hasImage()"
+        (click)="clearAll()"
+    >
+        <app-icon name="trash" [size]="16" />
+        Clear all masks
+    </button>
+    <p class="text-xs leading-relaxed text-ink-muted">
+        Images never leave your browser. There is no upload and no server.
+    </p>
+    <p class="text-xs leading-relaxed text-ink-muted">
+        A demo with a reduced feature set, by
+        <a
+            href="https://az-way.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-medium text-accent underline underline-offset-2 hover:text-accent-hover"
+            >Abzal Khairullauly</a
+        >.
+    </p>
+</div>
