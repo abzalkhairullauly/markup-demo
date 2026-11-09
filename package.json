@@ -1,0 +1,47 @@
+{
+    "name": "markup",
+    "scripts": {
+        "start": "ng serve",
+        "build": "ng build",
+        "build:pages": "ng build --base-href \"${BASE_HREF:-/markup/}\"",
+        "test": "ng test --watch=false",
+        "test:watch": "ng test",
+        "e2e": "playwright test",
+        "lint": "ng lint && prettier --check .",
+        "format": "prettier --write .",
+        "render-sample": "node scripts/render-sample.mjs"
+    },
+    "private": true,
+    "packageManager": "pnpm@10.21.0",
+    "dependencies": {
+        "@angular/common": "^22.2.0",
+        "@angular/compiler": "^22.2.0",
+        "@angular/core": "^22.2.0",
+        "@angular/forms": "^22.2.0",
+        "@angular/platform-browser": "^22.2.0",
+        "rxjs": "~7.8.0",
+        "tslib": "^2.3.0"
+    },
+    "devDependencies": {
+        "@angular-eslint/builder": "22.6.0",
+        "@angular/build": "^22.2.6",
+        "@angular/cli": "^22.2.6",
+        "@angular/compiler-cli": "^22.2.0",
+        "@eslint/js": "^10.0.1",
+        "@playwright/test": "^1.65.0",
+        "@tailwindcss/postcss": "^4.3.5",
+        "angular-eslint": "22.6.0",
+        "eslint": "^10.12.0",
+        "eslint-config-prettier": "^10.1.8",
+        "jsdom": "^30.0.0",
+        "postcss": "^8.5.32",
+        "prettier": "^3.8.1",
+        "tailwindcss": "^4.3.5",
+        "typescript": "~6.0.2",
+        "typescript-eslint": "8.71.0",
+        "vitest": "^5.0.0"
+    },
+    "description": "A browser-based image annotation editor built with Angular signals and the Canvas API.",
+    "license": "MIT",
+    "version": "1.0.0"
+}

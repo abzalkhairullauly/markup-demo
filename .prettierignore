@@ -1,0 +1,7 @@
+dist
+coverage
+pnpm-lock.yaml
+playwright-report
+test-results
+.angular
+src/vendor

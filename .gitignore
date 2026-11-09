@@ -1,0 +1,27 @@
+# Build output
+/dist
+/out-tsc
+/.angular/cache
+
+# Dependencies
+/node_modules
+
+# Tests
+/coverage
+/playwright-report
+/test-results
+/blob-report
+__screenshots__/
+
+# Editors
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
