@@ -1,0 +1,74 @@
+/* AZ-Way design tokens (from az-ui), only the ones markup uses. */
+:root {
+  --az-color-bg: #F1F4F1;
+  --az-color-surface: #FFFFFF;
+  --az-color-surface-muted: #F7F9F7;
+  --az-color-border: #D3DCD6;
+  --az-color-border-strong: #87958D;
+  --az-color-text: #13201A;
+  --az-color-text-muted: #5B6A62;
+  --az-color-primary: #1C7556;
+  --az-color-primary-hover: #155C43;
+  --az-color-on-primary: #FFFFFF;
+  --az-color-primary-soft: #DCEFE6;
+  --az-color-focus: #1C7556;
+  --az-color-danger: #A8261C;
+  --az-color-danger-soft: #FBE9E6;
+  --az-font-sans: "Golos Text", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --az-font-display: Geologica, "Golos Text", system-ui, sans-serif;
+  --az-font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --az-text-xs: 12px;
+  --az-text-sm: 14px;
+  --az-text-md: 16px;
+  --az-weight-medium: 500;
+  --az-weight-semibold: 600;
+  --az-leading-normal: 1.5;
+  --az-space-1: 4px;
+  --az-space-2: 8px;
+  --az-space-3: 12px;
+  --az-space-4: 16px;
+  --az-radius-sm: 6px;
+  --az-radius-md: 10px;
+  --az-radius-lg: 16px;
+  --az-radius-full: 999px;
+  --az-shadow-md: 0 4px 12px rgba(12, 17, 14, 0.08);
+  --az-duration-fast: 120ms;
+  color-scheme: light;
+}
+/* Dark theme: follows the OS unless the page forces data-theme="light". */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --az-color-bg: #0E1411;
+    --az-color-surface: #161F1A;
+    --az-color-surface-muted: #1B2620;
+    --az-color-border: #2A3630;
+    --az-color-border-strong: #5F7067;
+    --az-color-text: #E4ECE7;
+    --az-color-text-muted: #93A39A;
+    --az-color-primary: #4BC495;
+    --az-color-primary-hover: #6AD3AA;
+    --az-color-on-primary: #0A2A20;
+    --az-color-primary-soft: #183A2C;
+    --az-color-focus: #4BC495;
+    --az-color-danger: #FF8F84;
+    --az-color-danger-soft: #3A1B18;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --az-color-bg: #0E1411;
+  --az-color-surface: #161F1A;
+  --az-color-surface-muted: #1B2620;
+  --az-color-border: #2A3630;
+  --az-color-border-strong: #5F7067;
+  --az-color-text: #E4ECE7;
+  --az-color-text-muted: #93A39A;
+  --az-color-primary: #4BC495;
+  --az-color-primary-hover: #6AD3AA;
+  --az-color-on-primary: #0A2A20;
+  --az-color-primary-soft: #183A2C;
+  --az-color-focus: #4BC495;
+  --az-color-danger: #FF8F84;
+  --az-color-danger-soft: #3A1B18;
+  color-scheme: dark;
+}

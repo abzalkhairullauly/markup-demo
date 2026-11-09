@@ -1,0 +1,26 @@
+/* AZ-Way fonts (from az-ui), only the faces markup uses. SIL OFL 1.1,
+   licences in ./fonts. */
+@font-face {
+  font-family: "Golos Text";
+  src: url("./fonts/golos-text.woff2") format("woff2");
+  font-weight: 400 700;          /* variable font: one file, whole range */
+  font-style: normal;
+  font-display: swap;            /* show text in a system font at once, swap when loaded */
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+0400-04FF, U+2000-206F, U+20B8, U+2116, U+2212;
+}
+@font-face {
+  font-family: "Geologica";
+  src: url("./fonts/geologica.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+0400-04FF, U+2000-206F, U+20B8, U+2116, U+2212;
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("./fonts/ibm-plex-mono-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+0400-04FF, U+2000-206F, U+20B8, U+2116, U+2212;
+}

@@ -1,0 +1,180 @@
+@import "tailwindcss";
+
+/* AZ-Way design system (vendored from az-ui, see src/vendor/az-ui/VERSION).
+   Its component CSS goes into the components layer so Tailwind utilities can
+   still adjust spacing on the same element. */
+@import "./vendor/az-ui/az-fonts.css";
+@import "./vendor/az-ui/az-tokens.css";
+@import "./vendor/az-ui/az-components.css" layer(components);
+
+/* Tailwind names for az-ui semantic tokens. `inline` keeps the var()
+   reference, so the light/dark switch in az-tokens.css applies everywhere. */
+@theme inline {
+    --font-sans: var(--az-font-sans);
+    --font-display: var(--az-font-display);
+    --font-mono: var(--az-font-mono);
+
+    --color-surface-0: var(--az-color-bg);
+    --color-surface-1: var(--az-color-surface);
+    --color-surface-2: var(--az-color-surface-muted);
+    --color-line: var(--az-color-border);
+    --color-line-strong: var(--az-color-border-strong);
+    --color-ink: var(--az-color-text);
+    --color-ink-muted: var(--az-color-text-muted);
+    --color-accent: var(--az-color-primary);
+    --color-accent-hover: var(--az-color-primary-hover);
+    --color-accent-soft: var(--az-color-primary-soft);
+    --color-accent-ink: var(--az-color-on-primary);
+    --color-danger: var(--az-color-danger);
+    --color-danger-soft: var(--az-color-danger-soft);
+
+    --radius-sm: var(--az-radius-sm);
+    --radius-md: var(--az-radius-md);
+    --radius-lg: var(--az-radius-lg);
+    --shadow-popover: var(--az-shadow-md);
+    --default-transition-duration: var(--az-duration-fast);
+}
+
+@layer base {
+    body {
+        @apply text-sm;
+    }
+
+    button:disabled {
+        @apply cursor-not-allowed opacity-45;
+    }
+}
+
+@layer components {
+    /* Icon buttons follow az-ui buttons: pill radius, colour-only hover. */
+    .btn-icon {
+        @apply relative inline-grid size-9 place-items-center rounded-full text-ink-muted transition-colors;
+
+        &:not(:disabled):hover {
+            @apply bg-surface-2 text-ink;
+        }
+
+        &[aria-pressed="true"] {
+            @apply bg-accent-soft text-accent;
+        }
+    }
+
+    .divider {
+        @apply mx-0.5 h-6 w-px shrink-0 bg-line;
+    }
+
+    .menu-item {
+        @apply flex w-full flex-col items-start gap-0.5 rounded-md px-3 py-2 text-start;
+
+        &:hover,
+        &:focus-visible {
+            @apply bg-surface-2;
+        }
+    }
+
+    .panel-heading {
+        @apply text-xs font-medium tracking-wider text-ink-muted uppercase;
+    }
+
+    .class-row {
+        @apply flex items-center gap-2 rounded-md border border-transparent px-2 py-1;
+    }
+
+    .class-row-active {
+        @apply border-line bg-surface-2;
+    }
+
+    .class-name {
+        @apply h-8 min-w-0 flex-1 rounded-sm border border-transparent bg-transparent px-1.5 text-ink;
+
+        &:hover {
+            @apply border-line-strong;
+        }
+
+        &:focus {
+            @apply border-accent bg-surface-1 outline-none;
+        }
+    }
+
+    .swatch {
+        @apply size-6 shrink-0 cursor-pointer rounded-sm border-0 bg-transparent p-0;
+
+        &::-webkit-color-swatch-wrapper {
+            @apply p-0;
+        }
+
+        &::-webkit-color-swatch {
+            @apply rounded-sm border border-line-strong;
+        }
+
+        &::-moz-color-swatch {
+            @apply rounded-sm border border-line-strong;
+        }
+    }
+
+    .range {
+        @apply w-full accent-accent;
+    }
+
+    .kbd {
+        @apply inline-flex min-w-6 justify-center rounded-sm border border-line-strong bg-surface-2 px-1.5 py-0.5 font-mono text-xs text-ink;
+    }
+
+    .popover {
+        @apply rounded-lg border border-line bg-surface-1 shadow-popover;
+    }
+
+    .dialog {
+        @apply m-auto w-[min(44rem,calc(100vw-2rem))] rounded-lg border border-line bg-surface-1 text-ink shadow-popover;
+
+        &::backdrop {
+            @apply bg-black/50;
+        }
+    }
+
+    .stage-layer {
+        @apply absolute inset-0 block size-full;
+    }
+
+    /* Checkerboard so transparent images are visible. */
+    .stage-bg {
+        --check: var(--az-color-surface-muted);
+        background-color: var(--az-color-bg);
+        background-image:
+            linear-gradient(45deg, var(--check) 25%, transparent 25%),
+            linear-gradient(-45deg, var(--check) 25%, transparent 25%),
+            linear-gradient(45deg, transparent 75%, var(--check) 75%),
+            linear-gradient(-45deg, transparent 75%, var(--check) 75%);
+        background-size: 24px 24px;
+        background-position:
+            0 0,
+            0 12px,
+            12px -12px,
+            -12px 0;
+    }
+}
+
+/* Tooltips on hover and keyboard focus. Inverted colours keep AA contrast
+   in both themes. */
+[data-tip] {
+    &::after {
+        content: attr(data-tip);
+        @apply pointer-events-none absolute top-full left-1/2 z-50 mt-2 -translate-x-1/2 rounded-sm bg-ink px-2 py-1 text-xs font-normal whitespace-nowrap text-surface-1 opacity-0 transition-opacity;
+    }
+
+    &:hover::after,
+    &:focus-visible::after {
+        @apply opacity-100 delay-500;
+    }
+
+    &:focus-visible::after {
+        @apply delay-0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    ::after {
+        transition: none !important;
+    }
+}

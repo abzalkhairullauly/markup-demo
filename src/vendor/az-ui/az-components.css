@@ -1,0 +1,63 @@
+/* AZ-Way components (from az-ui), only the ones markup uses:
+   base, button, checkbox, alert. Needs az-tokens.css loaded first. */
+
+/* ---------- base ---------- */
+.az-root, .az-root * { box-sizing: border-box; }
+.az-root {
+  font-family: var(--az-font-sans);
+  font-size: var(--az-text-md);
+  line-height: var(--az-leading-normal);
+  color: var(--az-color-text);
+  background: var(--az-color-bg);
+  -webkit-font-smoothing: antialiased;
+}
+.az-root :focus-visible { outline: 2px solid var(--az-color-focus); outline-offset: 2px; }
+.az-root h1, .az-root h2 { font-family: var(--az-font-display); font-weight: var(--az-weight-semibold); letter-spacing: -.01em; text-wrap: balance; }
+
+/* ---------- button ---------- */
+.az-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--az-space-2);
+  min-height: 40px; padding: 0 var(--az-space-4);
+  font: var(--az-weight-medium) var(--az-text-sm)/1 var(--az-font-sans);
+  border-radius: var(--az-radius-full); border: 1.5px solid transparent;
+  cursor: pointer; text-decoration: none; white-space: nowrap;
+  transition: background-color var(--az-duration-fast), border-color var(--az-duration-fast), color var(--az-duration-fast);
+}
+.az-btn--primary { background: var(--az-color-primary); color: var(--az-color-on-primary); }
+.az-btn--primary:hover { background: var(--az-color-primary-hover); }
+.az-btn--secondary { background: var(--az-color-surface); color: var(--az-color-text); border-color: var(--az-color-border-strong); }
+.az-btn--secondary:hover { background: var(--az-color-surface-muted); }
+.az-btn--ghost { background: transparent; color: var(--az-color-primary); }
+.az-btn--ghost:hover { background: var(--az-color-primary-soft); }
+.az-btn--sm { min-height: 32px; padding: 0 var(--az-space-3); font-size: var(--az-text-xs); }
+.az-btn[disabled], .az-btn[aria-disabled="true"] { opacity: .45; cursor: not-allowed; pointer-events: none; }
+
+/* ---------- checkbox ---------- */
+.az-check { display: inline-flex; align-items: center; gap: var(--az-space-2); font-size: var(--az-text-sm); cursor: pointer; }
+.az-check input {
+  appearance: none; margin: 0; width: 18px; height: 18px; flex: none;
+  border: 1.5px solid var(--az-color-border-strong); border-radius: var(--az-radius-sm);
+  background: var(--az-color-surface); display: grid; place-content: center; cursor: pointer;
+}
+.az-check input::after {
+  content: ""; width: 10px; height: 6px; margin-top: -2px;
+  border: solid var(--az-color-on-primary); border-width: 0 0 2px 2px; transform: rotate(-45deg) scale(0);
+  transition: transform var(--az-duration-fast);
+}
+.az-check input:checked { background: var(--az-color-primary); border-color: var(--az-color-primary); }
+.az-check input:checked::after { transform: rotate(-45deg) scale(1); }
+
+/* ---------- alert ---------- */
+.az-alert {
+  display: flex; flex-direction: column; gap: var(--az-space-1);
+  padding: var(--az-space-3) var(--az-space-4); border-radius: var(--az-radius-md);
+  border: 1px solid var(--az-color-border); border-inline-start-width: 3px;
+  background: var(--az-color-surface-muted); font-size: var(--az-text-sm);
+}
+.az-alert__title { font-weight: var(--az-weight-semibold); }
+.az-alert--danger { background: var(--az-color-danger-soft); border-color: var(--az-color-danger); }
+.az-alert--danger .az-alert__title { color: var(--az-color-danger); }
+
+@media (prefers-reduced-motion: reduce) {
+  .az-btn, .az-check input::after { transition: none; }
+}
